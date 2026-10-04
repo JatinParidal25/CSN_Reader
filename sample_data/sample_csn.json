@@ -1,0 +1,720 @@
+{
+  "$version": "2.0",
+  "version": {
+    "csn": "2.0"
+  },
+  "definitions": {
+    "TVFKT": {
+      "kind": "entity",
+      "@EndUserText.label": "Billing: Document Types: Texts",
+      "elements": {
+        "MANDT": {
+          "type": "cds.String",
+          "length": 3,
+          "key": true,
+          "@EndUserText.label": "Client"
+        },
+        "SPRAS": {
+          "type": "cds.String",
+          "length": 1,
+          "key": true,
+          "@EndUserText.label": "Language Key"
+        },
+        "FKART": {
+          "type": "cds.String",
+          "length": 4,
+          "key": true,
+          "@EndUserText.label": "Billing Type"
+        },
+        "VTEXT": {
+          "type": "cds.String",
+          "length": 20,
+          "@EndUserText.label": "Description"
+        }
+      }
+    },
+    "Billng_type_dimention_view": {
+      "kind": "entity",
+      "@EndUserText.label": "Billing type dimension view",
+      "@ObjectModel.modelingPattern": {
+        "#": "ANALYTICAL_DIMENSION"
+      },
+      "@ObjectModel.supportedCapabilities": [
+        {
+          "#": "ANALYTICAL_DIMENSION"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "TVFKT"
+            ]
+          },
+          "columns": [
+            {
+              "ref": [
+                "MANDT"
+              ],
+              "key": true
+            },
+            {
+              "ref": [
+                "SPRAS"
+              ],
+              "key": true
+            },
+            {
+              "ref": [
+                "FKART"
+              ],
+              "key": true
+            },
+            {
+              "ref": [
+                "VTEXT"
+              ]
+            }
+          ]
+        }
+      },
+      "elements": {
+        "MANDT": {
+          "type": "cds.String",
+          "length": 3,
+          "key": true,
+          "@EndUserText.label": "Client"
+        },
+        "SPRAS": {
+          "type": "cds.String",
+          "length": 1,
+          "key": true,
+          "@EndUserText.label": "Language"
+        },
+        "FKART": {
+          "type": "cds.String",
+          "length": 4,
+          "key": true,
+          "@EndUserText.label": "Billing Type"
+        },
+        "VTEXT": {
+          "type": "cds.String",
+          "length": 20,
+          "@EndUserText.label": "Billing Type Name"
+        }
+      }
+    },
+    "VBRK_1": {
+      "kind": "entity",
+      "@EndUserText.label": "Billing Document: Header Data_1",
+      "elements": {
+        "MANDT": {
+          "type": "cds.String",
+          "length": 3,
+          "key": true
+        },
+        "VBELN": {
+          "type": "cds.String",
+          "length": 10,
+          "key": true,
+          "@EndUserText.label": "Billing Document"
+        },
+        "FKART": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Billing Type"
+        },
+        "FKTYP": {
+          "type": "cds.String",
+          "length": 1,
+          "@EndUserText.label": "Billing Category"
+        },
+        "FKDAT": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Billing Date"
+        }
+      }
+    },
+    "VBRP": {
+      "kind": "entity",
+      "@EndUserText.label": "Billing Document: Item Data",
+      "elements": {
+        "MANDT": {
+          "type": "cds.String",
+          "length": 3,
+          "key": true
+        },
+        "VBELN": {
+          "type": "cds.String",
+          "length": 10,
+          "key": true,
+          "@EndUserText.label": "Billing Document"
+        },
+        "POSNR": {
+          "type": "cds.String",
+          "length": 6,
+          "key": true,
+          "@EndUserText.label": "Billing Item"
+        },
+        "VRKME": {
+          "type": "cds.String",
+          "length": 3,
+          "@EndUserText.label": "Sales Unit"
+        },
+        "NETWR": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@EndUserText.label": "Net Value",
+          "@Aggregation.default": {
+            "#": "SUM"
+          },
+          "@AnalyticsDetails.measureType": {
+            "#": "BASE"
+          }
+        }
+      }
+    },
+    "SAP.TIME.M_TIME_DIMENSION": {
+      "kind": "entity",
+      "@EndUserText.label": "Time Table",
+      "elements": {
+        "DATE_SAP": {
+          "type": "cds.Date",
+          "key": true,
+          "@EndUserText.label": "Date SAP"
+        },
+        "YEAR": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Year"
+        },
+        "QUARTER": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Quarter"
+        },
+        "MONTH": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Month"
+        },
+        "DAY": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Day"
+        }
+      }
+    },
+    "Time_table_heirarchy": {
+      "kind": "entity",
+      "@EndUserText.label": "Time table heirarchy",
+      "@ObjectModel.modelingPattern": {
+        "#": "ANALYTICAL_DIMENSION"
+      },
+      "@ObjectModel.supportedCapabilities": [
+        {
+          "#": "ANALYTICAL_DIMENSION"
+        }
+      ],
+      "@Hierarchy.leveled": [
+        {
+          "name": "time_table_level",
+          "label": "time table level",
+          "levels": [
+            {
+              "element": {
+                "=": "YEAR"
+              }
+            },
+            {
+              "element": {
+                "=": "QUARTER"
+              }
+            },
+            {
+              "element": {
+                "=": "MONTH"
+              }
+            },
+            {
+              "element": {
+                "=": "DAY"
+              }
+            }
+          ]
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "SAP.TIME.M_TIME_DIMENSION"
+            ]
+          },
+          "columns": [
+            {
+              "ref": [
+                "YEAR"
+              ]
+            },
+            {
+              "ref": [
+                "QUARTER"
+              ]
+            },
+            {
+              "ref": [
+                "MONTH"
+              ]
+            },
+            {
+              "ref": [
+                "DAY"
+              ]
+            },
+            {
+              "ref": [
+                "DATE_SAP"
+              ],
+              "key": true
+            }
+          ]
+        }
+      },
+      "elements": {
+        "DATE_SAP": {
+          "type": "cds.Date",
+          "key": true,
+          "@EndUserText.label": "Date SAP"
+        },
+        "YEAR": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Year"
+        },
+        "QUARTER": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Quarter"
+        },
+        "MONTH": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Month"
+        },
+        "DAY": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Day"
+        }
+      }
+    },
+    "Current_Month_Outgoing_Invoices": {
+      "kind": "entity",
+      "@EndUserText.label": "Current_Month_Outgoing_Invoices",
+      "@ObjectModel.modelingPattern": {
+        "#": "ANALYTICAL_FACT"
+      },
+      "@ObjectModel.supportedCapabilities": [
+        {
+          "#": "DATA_STRUCTURE"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "join": "inner",
+            "args": [
+              {
+                "ref": [
+                  "VBRP"
+                ],
+                "as": "VBRP"
+              },
+              {
+                "ref": [
+                  "VBRK_1"
+                ],
+                "as": "VBRK_1"
+              }
+            ],
+            "on": [
+              {
+                "ref": [
+                  "VBRK_1",
+                  "VBELN"
+                ]
+              },
+              "=",
+              {
+                "ref": [
+                  "VBRP",
+                  "VBELN"
+                ]
+              }
+            ]
+          },
+          "columns": [
+            {
+              "ref": [
+                "VBRP",
+                "VBELN"
+              ],
+              "key": true
+            },
+            {
+              "ref": [
+                "VBRP",
+                "POSNR"
+              ],
+              "key": true
+            },
+            {
+              "ref": [
+                "VBRK_1",
+                "FKART"
+              ]
+            },
+            {
+              "ref": [
+                "VBRK_1",
+                "FKDAT"
+              ]
+            },
+            {
+              "ref": [
+                "VBRP",
+                "NETWR"
+              ]
+            },
+            {
+              "ref": [
+                "_Billng_ty"
+              ]
+            }
+          ],
+          "mixin": {
+            "_Billng_ty": {
+              "type": "cds.Association",
+              "target": "Billng_type_dimention_view",
+              "on": [
+                {
+                  "ref": [
+                    "$projection",
+                    "FKART"
+                  ]
+                },
+                "=",
+                {
+                  "ref": [
+                    "_Billng_ty",
+                    "FKART"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "elements": {
+        "VBELN": {
+          "type": "cds.String",
+          "length": 10,
+          "key": true,
+          "@EndUserText.label": "Billing Document"
+        },
+        "POSNR": {
+          "type": "cds.String",
+          "length": 6,
+          "key": true,
+          "@EndUserText.label": "Billing Item"
+        },
+        "FKART": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Billing Type"
+        },
+        "FKDAT": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Billing Date"
+        },
+        "NETWR": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@EndUserText.label": "Net Value",
+          "@Aggregation.default": {
+            "#": "SUM"
+          },
+          "@AnalyticsDetails.measureType": {
+            "#": "BASE"
+          }
+        },
+        "_Billng_ty": {
+          "type": "cds.Association",
+          "target": "Billng_type_dimention_view",
+          "@EndUserText.label": "Billing Type Dimension"
+        }
+      }
+    },
+    "Current_Month_OI_Heirarchy": {
+      "kind": "entity",
+      "@EndUserText.label": "Current Month OI Heirarchy",
+      "@ObjectModel.modelingPattern": {
+        "#": "ANALYTICAL_FACT"
+      },
+      "@ObjectModel.supportedCapabilities": [
+        {
+          "#": "DATA_STRUCTURE"
+        }
+      ],
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "Current_Month_Outgoing_Invoices"
+            ]
+          },
+          "columns": [
+            {
+              "ref": [
+                "VBELN"
+              ],
+              "key": true
+            },
+            {
+              "ref": [
+                "POSNR"
+              ],
+              "key": true
+            },
+            {
+              "ref": [
+                "NETWR"
+              ]
+            },
+            {
+              "ref": [
+                "FKDAT"
+              ]
+            },
+            {
+              "ref": [
+                "_Time_tabl"
+              ]
+            }
+          ],
+          "mixin": {
+            "_Time_tabl": {
+              "type": "cds.Association",
+              "target": "Time_table_heirarchy",
+              "on": [
+                {
+                  "ref": [
+                    "$projection",
+                    "FKDAT"
+                  ]
+                },
+                "=",
+                {
+                  "ref": [
+                    "_Time_tabl",
+                    "DATE_SAP"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      "elements": {
+        "VBELN": {
+          "type": "cds.String",
+          "length": 10,
+          "key": true,
+          "@EndUserText.label": "Billing Document"
+        },
+        "POSNR": {
+          "type": "cds.String",
+          "length": 6,
+          "key": true,
+          "@EndUserText.label": "Billing Item"
+        },
+        "NETWR": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@EndUserText.label": "Net Value of Billing item in Document Currency",
+          "@Aggregation.default": {
+            "#": "SUM"
+          },
+          "@AnalyticsDetails.measureType": {
+            "#": "BASE"
+          }
+        },
+        "FKDAT": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Billing Date",
+          "@ObjectModel.foreignKey.association": {
+            "=": "_Time_tabl"
+          }
+        },
+        "_Time_tabl": {
+          "type": "cds.Association",
+          "target": "Time_table_heirarchy",
+          "@EndUserText.label": "Current_Month_OI_Heirarchy to Time_table_heirarchy"
+        }
+      }
+    },
+    "Current_Month_OI_Analytic_Model": {
+      "kind": "entity",
+      "@EndUserText.label": "Current Month OI Analytic Model",
+      "elements": {
+        "FKDAT": {
+          "type": "cds.Date",
+          "@EndUserText.label": "Billing Date",
+          "@ObjectModel.foreignKey.association": {
+            "=": "_FKDAT"
+          }
+        },
+        "_FKDAT": {
+          "type": "cds.Association",
+          "target": "Time_table_heirarchy",
+          "@EndUserText.label": "Billing Date"
+        },
+        "VBELN": {
+          "type": "cds.String",
+          "length": 10,
+          "key": false,
+          "@EndUserText.label": "Billing Document"
+        },
+        "POSNR": {
+          "type": "cds.String",
+          "length": 6,
+          "key": false,
+          "@EndUserText.label": "Billing Item"
+        },
+        "MONTH_Billing_Date": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Month",
+          "@Analytics.navigationAttributeRef": [
+            "_FKDAT",
+            "MONTH"
+          ]
+        },
+        "QUARTER_Billing_Date": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Quarter",
+          "@Analytics.navigationAttributeRef": [
+            "_FKDAT",
+            "QUARTER"
+          ]
+        },
+        "YEAR_Billing_Date": {
+          "type": "cds.String",
+          "length": 4,
+          "@EndUserText.label": "Year",
+          "@Analytics.navigationAttributeRef": [
+            "_FKDAT",
+            "YEAR"
+          ]
+        },
+        "DAY_Billing_Date": {
+          "type": "cds.String",
+          "length": 2,
+          "@EndUserText.label": "Day",
+          "@Analytics.navigationAttributeRef": [
+            "_FKDAT",
+            "DAY"
+          ]
+        },
+        "NETWR": {
+          "type": "cds.Decimal",
+          "precision": 15,
+          "scale": 2,
+          "@EndUserText.label": "Net Value of Billing item in Document Currency",
+          "@Aggregation.default": {
+            "#": "SUM"
+          }
+        }
+      }
+    }
+  },
+  "businessLayerDefinitions": {
+    "Current_Month_OI_Analytic_Model": {
+      "identifier": {
+        "key": "Current_Month_OI_Analytic_Model"
+      },
+      "text": "Current Month OI Analytic Model",
+      "sourceModel": {
+        "factSources": {
+          "Current_Month_OI_Hei": {
+            "text": "Current Month OI Heirarchy",
+            "dataEntity": {
+              "key": "Current_Month_OI_Heirarchy"
+            }
+          }
+        },
+        "dimensionSources": {
+          "_FKDAT": {
+            "text": "Billing Date",
+            "dataEntity": {
+              "key": "Time_table_heirarchy"
+            },
+            "associationContexts": [
+              {
+                "sourceKey": "Current_Month_OI_Hei",
+                "sourceType": "AnalyticModelSourceType.Fact",
+                "associationSteps": [
+                  "_Time_tabl"
+                ]
+              }
+            ],
+            "technicalAffix": {
+              "text": "_Billing_Date",
+              "type": "AnalyticModelDimensionAffixType.SUFFIX"
+            }
+          }
+        }
+      },
+      "attributes": {
+        "VBELN": {
+          "text": "Billing Document"
+        },
+        "POSNR": {
+          "text": "Billing Item"
+        },
+        "FKDAT": {
+          "text": "Billing Date"
+        },
+        "MONTH_Billing_Date": {
+          "text": "Month"
+        },
+        "QUARTER_Billing_Date": {
+          "text": "Quarter"
+        },
+        "YEAR_Billing_Date": {
+          "text": "Year"
+        },
+        "DAY_Billing_Date": {
+          "text": "Day"
+        }
+      },
+      "measures": {
+        "NETWR": {
+          "measureType": "AnalyticModelMeasureType.FactSourceMeasure",
+          "measureMapping": {
+            "Current_Month_OI_Hei": {
+              "key": "NETWR"
+            }
+          },
+          "text": "Net Value of Billing item in Document Currency",
+          "isAuxiliary": false
+        }
+      }
+    }
+  }
+}
